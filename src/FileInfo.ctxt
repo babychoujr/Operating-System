@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=FileInfo
+comment1.params=dn\ s\ fl
+comment1.target=FileInfo(int,\ int,\ int)
+comment2.params=
+comment2.target=java.lang.String\ toString()
+numComments=3

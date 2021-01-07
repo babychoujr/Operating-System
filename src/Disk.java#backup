@@ -1,0 +1,8 @@
+package src; 
+import java.io.*; 
+abstract class Disk {
+  static final int NUM_SECTORS = 1024;
+  StringBuffer sectors[] = new StringBuffer[NUM_SECTORS];
+  abstract void write(int sector, StringBuffer data);  // call sleep
+  abstract void read(int sector, StringBuffer data);   // call sleep
+}

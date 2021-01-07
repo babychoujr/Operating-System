@@ -1,0 +1,8 @@
+package src;
+import java.util.*; 
+abstract class DirectoryManager {
+    private Hashtable<StringBuffer, FileInfo> T = 
+        new Hashtable<StringBuffer, FileInfo>();
+    abstract void enter(StringBuffer key, FileInfo file);
+    abstract FileInfo lookup(StringBuffer key);
+}

@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=DirectoryManager
+comment1.params=key\ file
+comment1.target=void\ enter(java.lang.StringBuffer,\ FileInfo)
+comment2.params=key
+comment2.target=FileInfo\ lookup(java.lang.StringBuffer)
+numComments=3

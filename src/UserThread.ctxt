@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=UserThread
+comment1.params=filename\ dm\ dlist\ pm\ plist
+comment1.target=UserThread(java.lang.String,\ DiskManager,\ Disk[],\ PrinterManager,\ Printer[])
+comment2.params=
+comment2.target=void\ run()
+numComments=3

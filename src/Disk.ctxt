@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=Disk
+comment1.params=sector\ data
+comment1.target=void\ write(int,\ java.lang.StringBuffer)
+comment2.params=sector\ data
+comment2.target=void\ read(int,\ java.lang.StringBuffer)
+comment3.params=size
+comment3.target=int\ getFreeSector(int)
+comment4.params=
+comment4.target=void\ dumpDisk()
+comment5.params=
+comment5.target=java.lang.String\ toString()
+numComments=6

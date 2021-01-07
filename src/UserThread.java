@@ -1,0 +1,100 @@
+import java.util.Scanner; 
+import java.lang.Thread; 
+import java.io.*;
+public class UserThread extends Thread
+{   
+    static StringBuffer sb = new StringBuffer(""); 
+    static int numOfThreads = 0;
+    int id = 0; 
+    String filename = ""; 
+    Scanner input;  
+    DiskManager dm; Disk[] dlist; 
+    PrinterManager pm; Printer[] plist; 
+    public UserThread(String filename, DiskManager dm, Disk[] dlist, PrinterManager pm, Printer[] plist)
+    throws IOException  {
+        numOfThreads++; 
+        id = numOfThreads; 
+        this.filename = filename;
+        this.dm = dm; 
+        this.dlist = dlist; 
+        this.pm = pm; 
+        this.plist = plist; 
+        File f = new File(filename); 
+        input = new Scanner(f); 
+    }
+           
+    public void run(){
+       boolean save_mode = false; 
+       int count =0; 
+       int disk = 0;   
+       String command=null; 
+       String filename=null;
+       StringBuffer[] sbs = new StringBuffer[1024]; 
+       while(input.hasNext()){
+           //System.out.printf("User%2d>",id); 
+           sb = new StringBuffer(input.nextLine());
+           String line = sb.toString(); 
+           String[] tokens = line.split(" "); 
+           command = tokens[0].trim(); 
+          
+           switch (command) {
+              case ".save"  : 
+                     save_mode = true;  
+                     if (tokens.length>1) filename = tokens[1].trim(); 
+                     count = 0; 
+                     break;
+              case ".print" : 
+                  // use the file name to get data from disk to printer. 
+                  if (tokens.length>1) filename = tokens[1].trim(); 
+                  StringBuffer sby = new StringBuffer(filename);
+                 
+                  boolean found = false;  FileInfo x = null; int dd = 999; 
+               
+                  //System.out.println("I am trapped at "+filename); 
+                  for (int i=0; i<dlist.length && !found; i++){
+                          x = dlist[i].dirM.lookup(sby);
+                          dd = i; 
+                          if (x!=null) found = true; 
+                     }
+                  if (dd!=999) { 
+                      System.out.printf("Disk %d %s %s\n",dd, filename, x.toString()); 
+                      
+                      int pn=0; 
+                      try{ pn = pm.request(); } catch(Exception e){}  // get disk number 
+                      PrintJobThread pjt = new PrintJobThread(x, pn, plist, dlist); 
+                      pjt.start(); 
+                      // a printer
+                      try { pjt.join(); } catch(Exception e){}
+                      pm.release(pn); 
+                    } 
+                  else System.out.println("File not found. "); 
+                  break;
+              case ".end"   :
+                  save_mode = false; 
+                  // binding the FileInfo to a file
+                  int dn=0; 
+                  try{ dn = dm.request(); } catch(Exception e){}  // get disk number 
+                      int sector = dlist[dn].getFreeSector(count); 
+                      // getting drive, sector number. 
+                      FileInfo fi = new FileInfo(dn, sector, count);  // need to request for a block. 
+                      StringBuffer sbx = new StringBuffer(filename); 
+                      
+                      if (sector!=-1){
+                          dlist[dn].dirM.enter(sbx, fi); 
+                          int p=0; 
+                          for (int i=sector; i<sector+count; i++){
+                              dlist[dn].write(i, sbs[p++]); 
+                            }
+                        }
+                  dm.release(dn); 
+                  break; 
+              default: // in save or not. 
+                 if (save_mode){
+                      sbs[count++] = new StringBuffer(line); 
+                      System.out.printf("Thread %d Line %d: %s\n", id, count, line); 
+                    }
+            }
+        }
+       input.close(); 
+    }
+}

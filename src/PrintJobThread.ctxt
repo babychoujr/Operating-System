@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=PrintJobThread
+comment1.params=x\ pn\ plist\ dlist
+comment1.target=PrintJobThread(FileInfo,\ int,\ Printer[],\ Disk[])
+comment2.params=
+comment2.target=void\ run()
+numComments=3

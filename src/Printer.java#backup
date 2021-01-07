@@ -1,0 +1,6 @@
+package cs141os;
+ 
+import java.io.*; 
+abstract class Printer {
+ abstract void print(StringBuffer data);  // call sleep
+}

@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=ResourceManager
+comment1.params=numberOfItems
+comment1.target=ResourceManager(int)
+comment2.params=
+comment2.target=int\ request()
+comment3.params=index
+comment3.target=void\ release(int)
+numComments=4
